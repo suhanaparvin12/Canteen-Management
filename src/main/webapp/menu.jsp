@@ -70,6 +70,5 @@
 		</nav>
 	</header> 
 	<script src="main.js"></script>
-
 </body>
 </html>

@@ -69,6 +69,6 @@
 			</div>
 		</nav>
 	</header> 
-	<script src="main.js"></script>
+	<script src="dashboard.js"></script>
 </body>
 </html>

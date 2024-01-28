@@ -118,8 +118,7 @@ if (user != null) {
 			<p>Don't have an account ?</p>
 			<a id="regBtn" >Register</a>
 		</div>
-		
 	</div>
-	<script src="main.js"></script>
+	<script src="login.js"></script>
 </body>
 </html>
