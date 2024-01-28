@@ -80,11 +80,11 @@
 				<form method="post" action="addMenuItems.jsp">
 					<div class="field">
 						<label>Item Name</label>
-						<input type="text" placeholder="eg. Coffee, Tea, Dhosa" name="item">
+						<input type="text" placeholder="eg. Coffee, Tea, Dhosa" name="item" required>
 					</div>
 					<div class="field">
 						<label>Item Price</label>
-						<input type="number" placeholder="eg. ₹ 10" value="₹" name="price">
+						<input type="number" placeholder="eg. ₹ 10" value="₹" name="price" required>
 					</div>
 					<div class="field">
 						<input type="submit" value="Add">
@@ -101,43 +101,64 @@
                 <th>ACTION</th>
             </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <%
-                    	Class.forName("com.mysql.jdbc.Driver");
-                    	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/projectdb","root","sql@2024");
-                    	PreparedStatement ps = con.prepareStatement("SELECT * FROM menu;");
-                    	ResultSet rs = ps.executeQuery();
-                    	int rating;
-                    	String item="", price="", editor="";
-                    	while(rs.next()){
-                        		item=rs.getString(1);
-                        		price=rs.getString(2);
-                        		rating=rs.getInt(3);
-                        		editor = rs.getString(4);
-                        		%>
-                        		<tr>
-                        			<td><%=item %></td>
-                        			<td>₹ <%= price %></td>
-                        			<td><%= rating %></td>
-                        			<%
-                        				if(editor.equals(cid))
-                        				{
-                        					%>
-                        					<td>
-                        						<a href="studentEdit.jsp?item=<%=item %>"><i class="ri-pencil-line"></i></a>
-                        						<a href="delete.jsp?item=<%=item %>"><i class="ri-delete-bin-line"></i></a>
-                        					</td>
-                        					<%
-                        				}
-                        			%>
-                        		</tr>
-                        		<%
-                        	}
-                    	
-                    %>
-            </tbody>
+				<tbody>
+    				<tr>
+        				<%
+            				Class.forName("com.mysql.jdbc.Driver");
+            				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/projectdb","root","sql@2024");
+            				PreparedStatement ps = con.prepareStatement("SELECT * FROM menu;");
+            				ResultSet rs = ps.executeQuery();
+            				int rating;
+            				String item="", price="", editor="";
+            				while(rs.next()){
+                				item=rs.getString(1);
+                				price=rs.getString(2);
+                				rating=rs.getInt(3);
+                				editor = rs.getString(4);
+        				%>
+        				<tr>
+            			<td><%=item %></td>
+            			<td>₹ <%= price %></td>
+            			<td>
+                			<%-- Display stars based on the rating --%>
+                			<% for (int i = 0; i < rating; i++) { %>
+                    			<i class="ri-star-fill rating_star"></i>
+                			<% } %>
+            			</td>
+            			<%
+                			if(editor.equals(cid))
+                			{
+            			%>
+            			<td>
+                			<a data-item="<%=item %>" data-price="<%=price %>" onclick="editItem(this)"><i class="ri-pencil-line edit_btn"></i></a>
+                			<a href="deleteItem.jsp?item=<%=item %>"><i class="ri-delete-bin-line"></i></a>
+            			</td>
+            			<%
+                			}
+            			%>
+        				</tr>
+        				<%
+        				}
+        				%>
+						</tbody>
+
         </table>
+        <div class="form_container" id="edit-form-container">
+				<i class="ri-close-fill form_close" id="edit-form-close"></i>
+				<form method="post" action="editMenuItems.jsp">
+					<div class="field">
+						<label>Item Name</label>
+						<input type="text" placeholder="eg. Coffee, Tea, Dhosa" name="item" required>
+					</div>
+					<div class="field">
+						<label>Item Price</label>
+						<input type="number" placeholder="eg. ₹ 10" name="price" required>
+					</div>
+					<div class="field">
+						<input type="submit" value="Update">
+					</div>
+				</form>
+			</div>
 	</div>
 	<script src="main.js"></script>
 
